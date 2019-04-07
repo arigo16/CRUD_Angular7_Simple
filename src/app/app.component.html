@@ -1,0 +1,93 @@
+<div style="margin: 20px">
+  <h2 class="text-center">PROJECT FINAL GO</h2>
+
+  <button type="button" class="btn btn-primary" style="margin-bottom: 10px;" (click)="addReligionModal(addModal)">
+    Add Religion
+  </button>
+
+  <h3 class="text-center" *ngIf="isLoadingList">Loading . . .</h3>
+
+  <table datatable class="row-border hover" *ngIf="!isLoadingList">
+    <thead>
+      <tr>
+        <th>Religion</th>
+        <th class="text-center" style="width: 10%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let religion of list_religion">
+        <td>{{religion.description | titlecase}}</td>
+        <td class="text-center">
+          <button type="button" class="btn btn-primary btn-xs"
+            (click)="editReligionModal(editModal, religion.id, religion.description)">
+            Edit
+          </button>
+          &nbsp;
+          <button type="button" class="btn btn-danger btn-xs"
+            (click)="delReligionModal(delModal, religion.id, religion.description)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #addModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Religion</h4>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="isLoadingAdd">
+      <h4>Loading . . .</h4>
+    </div>
+    <div class="form-group" *ngIf="!isLoadingAdd">
+      <label for="description">Religion:</label>
+      <input type="text" class="form-control" id="description" [(ngModel)]="description_add" required>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!description_add || isLoadingAdd"
+      (click)="addReligionFunction()">Save</button>
+    <button type="button" class="btn btn-default" (click)="addDialog.hide()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #editModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Religion</h4>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="isLoadingEdit">
+      <h4>Loading . . .</h4>
+    </div>
+    <div class="form-group" *ngIf="!isLoadingEdit">
+      <label for="description">Religion:</label>
+      <input type="text" class="form-control" id="description" [(ngModel)]="description_edit" required>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!description_edit || isLoadingEdit"
+      (click)="editReligionFunction()">Update</button>
+    <button type="button" class="btn btn-default" (click)="editDialog.hide()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #delModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Delete Religion</h4>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="isLoadingDel">
+      <h4>Loading . . .</h4>
+    </div>
+    <div *ngIf="!isLoadingDel">
+      <span>Are you sure want to delete data "{{description_del | titlecase}}" ?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="isLoadingDel"
+      (click)="delReligionFunction()">Delete</button>
+    <button type="button" class="btn btn-default" (click)="delDialog.hide()">Close</button>
+  </div>
+</ng-template>
